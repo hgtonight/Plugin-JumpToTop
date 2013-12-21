@@ -35,10 +35,15 @@ class JumpToTop extends Gdn_Plugin {
 	public function Base_Render_Before($Sender) {
 		// bring in the module into every controller that isn't in the dashboard view
 		if($Sender->MasterView != 'admin' && !C('EnabledPlugins.embedvanilla',FALSE)) {
-			$Module = new JumpToTopModule($Sender);
-			$Sender->AddModule($Module);
+			$Sender->AddDefinition('JumpToTop', T('Jump to top of page'));
+
+			$Sender->AddAsset('Panel', Anchor('', '#top', array(
+				'id'    => 'JumpToTop',
+				'title' => T('Jump to top of page')
+			)));
 
 			// add the JS/Css
+			$Sender->AddJsFile($this->GetResource('js/jquery-throttle.js', FALSE, FALSE));
 			$Sender->AddJsFile($this->GetResource('js/jumptotop.js', FALSE, FALSE));
 			$Sender->AddCSSFile($this->GetResource('design/jumptotop.css', FALSE, FALSE));
 		}
