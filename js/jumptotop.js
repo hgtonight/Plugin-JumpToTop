@@ -1,20 +1,17 @@
 /* Copyright 2013 Zachary Doll */
-jQuery(function ($) {
-	jumpToTop = '#JumpToTop';
+jQuery(document).ready(function($) {
+  // Fade in.out on scroll
+  $(window).scroll($.debounce(function() {
+    if ($(this).scrollTop() > 100) {
+      $('#JumpToTop').fadeIn();
+    } else {
+      $('#JumpToTop').fadeOut();
+    }
+  }, 100, null, true, true));
 
-	$(window).on('scroll', $.throttle(function () {
-		$jumpToTop = $(jumpToTop);
-
-		if ($(this).scrollTop() > 100) {
-			$jumpToTop.fadeIn();
-		} else {
-			$jumpToTop.fadeOut();
-		}
-	}, 100));
-
-	$(document).on('click', JumpToTop, function (e) {
-		e.preventDefault();
-
-		$('body').animate({scrollTop: 0}, 800);
-	});
+  // scroll body to 0px on click
+  $('#JumpToTop').click(function(event) {
+    event.preventDefault();
+    $('body, html').animate({scrollTop: 0}, 800);
+  });
 });
